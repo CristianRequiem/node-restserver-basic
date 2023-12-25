@@ -8,9 +8,11 @@ const getUser = (req, res) => {
 }
 
 const postUser = (req, res) => {
+    const {body} = req;
+
     res.status(201).json({
         msg: 'Post API - controller',
-        data: req.body
+        body
     });
 }
 
