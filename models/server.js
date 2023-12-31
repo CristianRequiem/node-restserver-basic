@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { dbConnection } = require('../database/config');
-const router = require('../routes/user');
+const userRouter = require('../routes/user');
+const authRouter = require('../routes/auth');
 
 class Server {
 
@@ -10,6 +11,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT || 8080;
         this.usersPath = '/api/users';
+        this.authPath = '/api/auth';
 
         // Start DB
         this.connectDb();
@@ -39,7 +41,8 @@ class Server {
 
     routes() {
         
-        this.app.use(this.usersPath, router);
+        this.app.use(this.authPath, authRouter);
+        this.app.use(this.usersPath, userRouter);
 
     }
 

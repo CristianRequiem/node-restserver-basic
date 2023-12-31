@@ -51,9 +51,6 @@ const putUser = async (req, res) => {
 const deleteUser = async(req, res) => {
     const { id } = req.params;
 
-    // Physically delete from DB
-    // const user = await User.findByIdAndDelete(id);
-
     const user = await User.findByIdAndUpdate(id, {status: false});
 
     res.json(user);
