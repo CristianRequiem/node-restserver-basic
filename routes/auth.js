@@ -11,4 +11,9 @@ router.post('/login', [
     validateFields
 ], authController.login);
 
+router.post('/google', [
+    check('id_token', 'id_token is necessary').not().isEmpty(),
+    validateFields
+], authController.googleSignIn);
+
 module.exports = router;
