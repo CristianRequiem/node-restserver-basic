@@ -21,7 +21,6 @@ const isAdminRole = (req = request, res = response, next) => {
 const hasRole = (...roles) => {
 
     return (req = request, res = response, next) => {
-        console.log(roles);
 
         if (!req.user) {
             return res.status(500).json({

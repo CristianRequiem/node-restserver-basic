@@ -4,14 +4,23 @@ require('dotenv').config();
 const { dbConnection } = require('../database/config');
 const userRouter = require('../routes/user');
 const authRouter = require('../routes/auth');
+const categoryRouter = require('../routes/category');
+const productRouter = require('../routes/product');
+const searchRouter = require('../routes/search');
 
 class Server {
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT || 8080;
-        this.usersPath = '/api/users';
-        this.authPath = '/api/auth';
+
+        this.paths = {
+            auth: '/api/auth',
+            categories: '/api/category',
+            search: '/api/search',
+            users: '/api/user',
+            products: '/api/product'
+        };
 
         // Start DB
         this.connectDb();
@@ -41,8 +50,11 @@ class Server {
 
     routes() {
         
-        this.app.use(this.authPath, authRouter);
-        this.app.use(this.usersPath, userRouter);
+        this.app.use(this.paths.auth, authRouter);
+        this.app.use(this.paths.categories, categoryRouter);
+        this.app.use(this.paths.search, searchRouter);
+        this.app.use(this.paths.users, userRouter);
+        this.app.use(this.paths.products, productRouter);
 
     }
 
