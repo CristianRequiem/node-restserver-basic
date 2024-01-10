@@ -1,12 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 require('dotenv').config();
+
 const { dbConnection } = require('../database/config');
 const userRouter = require('../routes/user');
 const authRouter = require('../routes/auth');
 const categoryRouter = require('../routes/category');
 const productRouter = require('../routes/product');
 const searchRouter = require('../routes/search');
+const uploadRouter = require('../routes/upload');
 
 class Server {
 
@@ -18,6 +21,7 @@ class Server {
             auth: '/api/auth',
             categories: '/api/category',
             search: '/api/search',
+            uploads: '/api/upload',
             users: '/api/user',
             products: '/api/product'
         };
@@ -46,13 +50,20 @@ class Server {
         // Puclic
         this.app.use(express.static('public'));
 
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
+
     }
 
     routes() {
-        
+
         this.app.use(this.paths.auth, authRouter);
         this.app.use(this.paths.categories, categoryRouter);
         this.app.use(this.paths.search, searchRouter);
+        this.app.use(this.paths.uploads, uploadRouter);
         this.app.use(this.paths.users, userRouter);
         this.app.use(this.paths.products, productRouter);
 
